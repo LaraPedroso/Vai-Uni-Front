@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
 import { useForm } from "react-hook-form";
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../../context/auth';
 import './style.css';
+import loginIMg from '../../img/login.png';
 
 function Login() {
     const { register, handleSubmit } = useForm();
+
+    const navigate = useNavigate();
 
     const { authenticated, login } = useContext(AuthContext);
 
@@ -24,19 +27,23 @@ function Login() {
     }
 
     return (
-        <div className="d-flex min-vh-100 align-items-center">
-            <div className="container col-8 col-sm-5 formulario">
+        <div className="d-flex min-vh-100 align-items-center fundo">
+            <div className="container col-10 col-sm-7 col-md-6 col-lg-3 formulario p-3 ">
+                <img src={loginIMg} alt="logo Vou Pra uni" className='m-auto d-block' id='logo'/>
+
                 <form className='w-100' onSubmit={handleSubmit(handleButtonLogin)}  >
-                    <div className="form-floating mb-3">
-                        <input type="text" className="form-control" id="usuario" placeholder="Usuario"  {...register('user')} />
-                        <label htmlFor="usuario">Usuario</label>
+                    <div className="form-group mb-3">
+                        <label htmlFor="Email">Email</label>
+                        <input autoFocus type="email" className="form-control" id="Email" {...register('email', { required: true })} aria-describedby="emailHelp" placeholder="Digite seu email" />
+                        <small id="emailHelp" className="form-text text-muted">Informe seu email caso ja tenha se cadastrado.</small>
                     </div>
-                    <div className="form-floating mb-3">
-                        <input type="password" className="form-control" id="password" placeholder="Password" {...register('password')} />
+                    <div className="form-group">
                         <label htmlFor="password">Password</label>
+                        <input type="password" className="form-control" id="password" placeholder="Senha" {...register('password', { required: true, minLength: 6 })} />
                     </div>
+
                     <button type='submit' className='mt-3 btn btn-outline-primary w-100'>Entrar</button>
-                    <button type='submit' className='mt-3 btn btn-outline-danger w-100'>Cadastrar-se</button>
+                    <button type='button' className='mt-3 btn btn-outline-danger w-100' onClick={() => navigate('/register')}>Cadastrar-se</button>
                 </form>
             </div>
         </div>
