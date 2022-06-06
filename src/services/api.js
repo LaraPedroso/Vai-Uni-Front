@@ -2,12 +2,12 @@ import axios from "axios";
 
 
 export const api = axios.create({
-  baseURL: `localhost:3001/api`,
+  baseURL: `http://localhost:3001/api`,
   headers: {
     'Content-Type': 'application/json',
   }
 });
 
-export const createSession = async (dados) => {
-  return api.post('/login', { auth: { username: dados.user, password: dados.password } });
+export const createSession = (dados) => {
+  return api.post('/login', {}, { auth: { username: dados.email, password: dados.password } });
 }
