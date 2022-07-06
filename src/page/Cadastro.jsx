@@ -5,24 +5,26 @@ import { toast } from 'react-toastify';
 import { AuthContext } from '../context/auth';
 import loginIMg from '../img/login.png';
 import InputMask from "react-input-mask";
+import { cadastro } from '../services/cadastro';
 
 function Cadastro() {
     const { register, handleSubmit } = useForm();
 
     const navigate = useNavigate();
 
-    const { authenticated, login } = useContext(AuthContext);
+    const { authenticated } = useContext(AuthContext);
 
     if (authenticated) {
         return <Navigate to="/" />
     }
 
-    const handleButtonLogin = async (auth) => {
-        const data = await login(auth);
+    const handleButtonCadastro = async (auth) => {
+        const data = await cadastro(auth);
         if (data.status === false) {
             toast.error(data.result, { autoClose: 3000 });
         } else {
-            toast.success("Bem-Vindo", { autoClose: 1000 });
+            console.log(data)
+            navigate('/login');
         }
     }
     const style = {
@@ -40,7 +42,7 @@ function Cadastro() {
 
                 <img src={loginIMg} alt="logo Vou Pra uni" className='m-auto d-block col-9 col-lg-6' id='logo' />
 
-                <form className='w-100' onSubmit={handleSubmit(handleButtonLogin)}  >
+                <form className='w-100' onSubmit={handleSubmit(handleButtonCadastro)}  >
                     <div className="form-group mb-3">
                         <label htmlFor="Nome">Nome</label>
                         <input autoFocus type="text" className="form-control"  {...register('nome', { required: true })} aria-describedby="nomeHelp" placeholder="Digite seu Nome" />

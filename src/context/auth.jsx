@@ -49,6 +49,8 @@ export const AuthProvider = ({ children }) => {
 
                 setToken(tokenSession);
 
+
+
                 api.defaults.headers.Authorization = `Bearer ${tokenSession}`;
             }
             return data;
@@ -69,8 +71,16 @@ export const AuthProvider = ({ children }) => {
         setToken(null);
     }
 
+    const userId = () => {
+        const tokenSession = localStorage.getItem('token');
+
+        let decoded = jwt_decode(tokenSession);
+
+        return decoded.userId;
+    }
+
     return (
-        <AuthContext.Provider value={{ authenticated: validarToken(), token, setToken, login, logout }}>
+        <AuthContext.Provider value={{ authenticated: validarToken(), userId, token, setToken, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
